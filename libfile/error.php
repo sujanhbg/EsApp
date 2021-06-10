@@ -33,6 +33,7 @@ use kring\core\Controller;
  * @author sjnx
  *//*
  * It need to define the file location with same format
+ * This can be load error.
  */
 class errorhndlr extends Controller {
 
