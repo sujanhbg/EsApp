@@ -1,0 +1,28 @@
+{
+    "name": "sujanhbg/esapp",
+    "description": "A simple micro framework for php development",
+    "type": "library",
+    "license": "MIT",
+    "composer-runtime-api": "^2.0",
+    "authors": [
+        {
+            "name": "Sujan C.Barty",
+            "email": "sujanhbg@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "kring\\core\\": "libfile/",
+            "kring\\database\\": "libfile/database",
+            "kring\\utilities\\": "libfile/utilities"
+        }
+    },
+    "require": {
+        "twig/twig": "^3.1",
+        "wixel/gump": "^1.12",
+        "nilportugues/sql-query-builder": "^1.8"
+    },
+    "require": {
+        "php": "^5.6|^7.0|^8.0"
+    }
+}
