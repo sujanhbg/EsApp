@@ -29,7 +29,7 @@
 
 namespace kring\core;
 
-class Kform {
+class kform {
 
     private $formid;
     private $action;

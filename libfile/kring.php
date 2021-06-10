@@ -33,7 +33,7 @@ use kring\database;
  * It need to define the file location with same format
  */
 
-class Kring {
+class kring {
 
     public $controllerName;
     public $methodname;

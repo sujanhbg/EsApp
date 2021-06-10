@@ -34,7 +34,7 @@ namespace kring\core;
 
 use kring\utilities\comm;
 
-class Controller {
+class controller {
 
     public $adminarea;
     public $appdir;

@@ -29,6 +29,6 @@ namespace kring\core;
  * It need to define the file location with same format
  */
 
-class Model {
+class model {
     
 }

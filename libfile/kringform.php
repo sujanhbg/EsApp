@@ -22,7 +22,7 @@ namespace kring\core;
  * It need to define the file location with same format
  */
 
-class Kringform {
+class kringform {
 
     public $formdata;
     public $tablename;
