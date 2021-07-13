@@ -216,6 +216,31 @@ class kring {
         return $ret;
     }
 
+    function incache($file) {
+        $filename = $this->appdir . "/kdata/{$file}";
+        if (!file_exists($filename)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    function getcache($file) {
+        $filename = $this->appdir . "/kdata/{$file}";
+        if (!file_exists($filename)) {
+            return false;
+        } else {
+            return file_get_contents($filename);
+        }
+    }
+
+    function writecache($file, $content) {
+        $filename = $this->appdir . "/kdata/{$file}";
+        $myfile = fopen($filename, "w") or die("Unable to open file!");
+        fwrite($myfile, $content);
+        return $content;
+    }
+
     private function ipdtls() {
         //http://ip-api.com/json/{query}?fields=4976639
         if ($this->coreconf('SaveIpDataInFile') == true) {

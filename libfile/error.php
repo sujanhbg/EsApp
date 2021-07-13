@@ -24,8 +24,8 @@
  * THE SOFTWARE.
  */
 
-use kring\core\Kring;
-use kring\core\Controller;
+use kring\core\kring;
+use kring\core\controller;
 
 /**
  * Description of error
@@ -35,10 +35,10 @@ use kring\core\Controller;
  * It need to define the file location with same format
  * This can be load error.
  */
-class errorhndlr extends Controller {
+class errorhndlr extends controller {
 
     function er404() {
-        $kore = new Kring();
+        $kore = new kring();
         $hostname = $_SERVER['REMOTE_ADDR'];
         if ($hostname == '127.0.0.1') {
             $ipexxcee = "Try Class:{$kore->getClassName()}(){......}<br>
@@ -114,14 +114,14 @@ a:hover {
     <div class="err">4</div>
     <i class="far fa-question-circle fa-spin"></i>
     <div class="err2">4</div>
-    <div class="msg">Maybe this page moved? Got deleted? Is hiding out in quarantine? 
+    <div class="msg">Maybe this page moved? Got deleted? Is hiding out in quarantine?
         Never existed in the first place?<p>Let's go <a href="{$kore->coreconf('baseurl')}">home</a> and try from there.</p>
-   {$ipexxcee}         
+   {$ipexxcee}
    </div>
-      </div> 
-          
+      </div>
+
 <script src="{$this->baseurl()}/js/page.js"></script>
-<script src="{$this->baseurl()}/js/app.js"></script>        
+<script src="{$this->baseurl()}/js/app.js"></script>
 eotty;
     }
 
@@ -205,10 +205,10 @@ a:hover {
     <h1>{$message}</h1>
     <p>{$solution}</p>
    </div>
-      </div> 
-          
+      </div>
+
 <script src="{$this->baseurl()}/js/page.js"></script>
-<script src="{$this->baseurl()}/js/app.js"></script>        
+<script src="{$this->baseurl()}/js/app.js"></script>
 eotty;
     }
 

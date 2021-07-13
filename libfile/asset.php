@@ -47,7 +47,7 @@ class assets {
 
     function css($pr) {
         if ($this->kring()->getApp() == "apps") {
-            $dir = $this->appdir . "/apps/" . $this->kring()->coreconf('defaultVersion') . "/views/css";
+            $dir = $this->appdir . "/" . $this->kring()->getApp() . "/" . $this->kring()->coreconf('defaultVersion') . "/assets/css";
             $filename = isset($pr[2]) ? $pr[2] : $pr[1];
         } else {
             $dir = $this->appdir . "/" . $this->kring()->getApp() . "/" . $this->kring()->coreconf('defaultVersion') . "/assets/css";
@@ -60,7 +60,7 @@ class assets {
 
     function jscript($pr) {
         if ($this->kring()->getApp() == "apps") {
-            $dir = $this->appdir . "/apps/" . $this->kring()->coreconf('defaultVersion') . "/views/js";
+            $dir = $this->appdir . "/" . $this->kring()->getApp() . "/" . $this->kring()->coreconf('defaultVersion') . "/assets/js";
             $filename = isset($pr[2]) ? $pr[2] : $pr[1];
         } else {
             $dir = $this->appdir . "/" . $this->kring()->getApp() . "/" . $this->kring()->coreconf('defaultVersion') . "/assets/js";
@@ -76,7 +76,7 @@ class assets {
     }
 
     function asset() {
-        
+
     }
 
 }
