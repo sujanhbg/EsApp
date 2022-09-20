@@ -46,27 +46,35 @@ class assets {
     }
 
     function css($pr) {
-        if ($this->kring()->getApp() == "apps") {
-            $dir = $this->appdir . "/apps/" . $this->kring()->coreconf('defaultVersion') . "/views/css";
-            $filename = isset($pr[2]) ? $pr[2] : $pr[1];
-        } else {
-            $dir = $this->appdir . "/" . $this->kring()->getApp() . "/" . $this->kring()->coreconf('defaultVersion') . "/assets/css";
-            $fileadd = isset($pr[4]) ? "/" . $pr[4] : null;
-            $filename = isset($pr[3]) ? $pr[3] . $fileadd : $pr[2];
+        $dirfile = "";
+        foreach ($pr as $fld) {
+            $dirfile .= "/" . $fld;
         }
+
+
+        if ($this->kring()->getApp() == "apps") {
+            $dir = $this->appdir . "/" . $this->kring()->getApp() . "/" . $this->kring()->coreconf('defaultVersion') . "/assets/css";
+        } else {
+            $dir = $this->appdir . "/" . $this->kring()->getApp() . "/" . $this->kring()->coreconf('defaultVersion') . "/assets";
+        }
+        $filename = $dirfile;
         header("Content-type: text/css; charset: UTF-8");
         echo is_file($dir . "/" . $filename) ? file_get_contents($dir . "/" . $filename) : "File " . $dir . "/" . $filename . " is not loaded";
     }
 
     function jscript($pr) {
-        if ($this->kring()->getApp() == "apps") {
-            $dir = $this->appdir . "/apps/" . $this->kring()->coreconf('defaultVersion') . "/views/js";
-            $filename = isset($pr[2]) ? $pr[2] : $pr[1];
-        } else {
-            $dir = $this->appdir . "/" . $this->kring()->getApp() . "/" . $this->kring()->coreconf('defaultVersion') . "/assets/js";
-            $fileadd = isset($pr[4]) ? "/" . $pr[4] : null;
-            $filename = isset($pr[3]) ? $pr[3] . $fileadd : $pr[2];
+        $dirfile = "";
+        foreach ($pr as $fld) {
+            $dirfile .= "/" . $fld;
         }
+
+        if ($this->kring()->getApp() == "apps") {
+            $dir = $this->appdir . "/" . $this->kring()->getApp() . "/" . $this->kring()->coreconf('defaultVersion') . "/assets/js";
+        } else {
+            $dir = $this->appdir . "/" . $this->kring()->getApp() . "/" . $this->kring()->coreconf('defaultVersion') . "/assets";
+        }
+        $filename = $dirfile;
+
         header('Content-Type: application/javascript');
         $search = ["{{baseurl}}", "{{ baseurl }}", "{{baseurl }}", "{{ baseurl}}"];
         $paste = [$this->baseurl()];

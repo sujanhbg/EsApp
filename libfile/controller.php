@@ -139,10 +139,13 @@ class controller {
                 }
             }
             $valuetoplce22 = explode(",", rtrim($valuetoplce, ","));
-            // style and script intrigation
-            $global_search = ["{baseurl}", "{ProjectName}", "{OrgName}"];
-            $global_paste = [$this->kring()->coreconf('baseurl'),
-                $this->kring()->conf('ProjectName'), $this->kring()->conf('OrgName')];
+
+            $transform = ["{baseurl}" => $this->kring()->coreconf('baseurl'),
+                "{ProjectName}" => $this->kring()->conf('ProjectName'),
+                "{OrgName}" => $this->kring()->conf('OrgName'),
+                "{siteurl}" => $this->kring()->coreconf('siteurl')
+            ];
+
             if (is_file($esviewFile . "/{$filename}.php")) {
                 $loaderfile = $esviewFile . "/{$filename}.php";
             } elseif (is_file($themepath . "/{$filename}.php")) {
@@ -154,10 +157,10 @@ class controller {
             }
 
             $themedata = $this->includeFileContent($loaderfile, $data);
-            $themedata = str_ireplace($global_search, $global_paste, $themedata);
+            $themedata = strtr($themedata, $transform);
 
             // print_r($valuetoplce22);
-            return str_ireplace($keysearch, $valuetoplce22, $themedata);
+            return str_replace($keysearch, $valuetoplce22, $themedata);
         } else {
             return "Error:: Data of this page cannot be initialize";
         }
@@ -194,7 +197,8 @@ class controller {
 
         $array = ['baseurl' => $this->kring()->coreconf('baseurl'),
             'ProjectName' => $this->kring()->conf('ProjectName'),
-            'OrgName' => $this->kring()->conf('OrgName')
+            'OrgName' => $this->kring()->conf('OrgName'),
+            'siteurl' => $this->kring()->coreconf('siteurl')
         ];
         $loader = new \Twig\Loader\FilesystemLoader($loaderpath);
         $twig = new \Twig\Environment($loader, ['cache' => $this->appdir . "/cache",]);

@@ -85,7 +85,13 @@ class kring {
     }
 
     function dbconf($varname) {
-        require($this->appdir . "/configs/database.php");
+        if (is_file($this->appdir . "/configs/database_" . $this->getApp() . ".php")) {
+            require ($this->appdir . "/configs/database_" . $this->getApp() . ".php");
+        } else {
+            require($this->appdir . "/configs/database.php");
+            //echo $this->appdir . "/configs/database_" . $this->getApp() . ".php" . " in not loaded......";
+        }
+
         if (isset($db[$varname])) {
             return $db[$varname];
         } else {
@@ -216,6 +222,31 @@ class kring {
         return $ret;
     }
 
+    function incache($file) {
+        $filename = $this->appdir . "/kdata/{$file}";
+        if (!file_exists($filename)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    function getcache($file) {
+        $filename = $this->appdir . "/kdata/{$file}";
+        if (!file_exists($filename)) {
+            return false;
+        } else {
+            return file_get_contents($filename);
+        }
+    }
+
+    function writecache($file, $content) {
+        $filename = $this->appdir . "/kdata/{$file}";
+        $myfile = fopen($filename, "w") or die("Unable to open file!");
+        fwrite($myfile, $content);
+        return $content;
+    }
+
     private function ipdtls() {
         //http://ip-api.com/json/{query}?fields=4976639
         if ($this->coreconf('SaveIpDataInFile') == true) {
@@ -261,6 +292,24 @@ class kring {
         return "Version 1.0.0 (First Version)";
     }
 
+    function isaccess() {
+        $userrole = isset($_SESSION['UsrRole']) ? $_SESSION['UsrRole'] : 0;
+        $userID = isset($_SESSION['UsrID']) ? $_SESSION['UsrID'] : 0;
+        $app = $this->getClassName();
+        $opt = $this->getMethod();
+        if ($this->coreconf('advancedPermission') == true) {
+            if ($userrole == 21 || $userrole == 22) {
+                return true;
+            } else {
+                $dval = new \kring\database\dbal();
+                $getappssnumber = $dval->get_single_result("SELECT ID FROM priv_options WHERE appName='{$app}' AND optName='{$opt}' LIMIT 1");
+                return $dval->get_single_result("SELECT ID  FROM usergranted_options WHERE userID='{$userID}' AND appname='{$getappssnumber}' AND optname='1' LIMIT 1 ");
+            }
+        } else {
+            return true;
+        }
+    }
+
     public function Run() {
         require_once 'error.php';
 
@@ -294,13 +343,27 @@ class kring {
                     echo $err->index([]);
                 }
             } else {
-                $pagejs = isset($this->getClass()->pagejs) ? $this->getClass()->pagejs : 0;
-                if ($pagejs == 1 && !isset($_GET['fd'])) {
+                if ($this->isaccess() == true) {
+                    $pagejs = isset($this->getClass()->pagejs) ? $this->getClass()->pagejs : 0;
+                    if ($pagejs == 1 && !isset($_GET['fd'])) {
+                        $this->getClass()->index($this->getparams());
+                    } else {
+                        $this->getClass()->$method($this->getparams());
+                    }
+                } elseif ($this->getClassName() == "Home" && $this->getMethod() == "dashboard") {
+                    $this->getClass()->dashboard($this->getparams());
+                } elseif ($this->getClassName() == "Home") {
                     $this->getClass()->index($this->getparams());
-                } else {
+                } elseif ($this->getClassName() == "Auth") {
                     $this->getClass()->$method($this->getparams());
+                } else {
+                    print_r($_SESSION);
+                    echo "<div class=\"w3-panel w3-card w3-pale-red w3-text-red w3-xlarge\"><p>"
+                    . "<i class=\"fa fa-times\" aria-hidden=\"true\"></i> "
+                    . "Permission Denied</p></div>";
                 }
             }
+
             // . "()";
         } elseif ($this->getClassName() == "Css") {
             $this->getClass()->css($this->getparams());
